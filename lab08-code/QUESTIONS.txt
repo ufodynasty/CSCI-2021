@@ -1,0 +1,167 @@
+                           __________________
+
+                            LAB 08 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+QUIZ Coding Assembly Functions
+==============================
+
+  Answer the following questions on stack manipulation and function
+  calls in assembly.
+
+
+Growing the Stack
+~~~~~~~~~~~~~~~~~
+
+  Which of the following instructions can be used to extend / grow the
+  stack?
+      Instruction     Description                                                                                
+  ---------------------------------------------------------------------------------------------------------------
+   A  subq $20, %rsp  extends the stack by 20 bytes, data is uninitialized                                       
+   B  pushq $99       extends the stack by 8 bytes, 8-byte value 99 written at the top of the stack              
+   C  pushl %ebx      extends the stack by 4 bytes, 4-byte value in register ebx written at the top of the stack 
+
+  - ( ) A only
+  - ( ) B only
+  - ( ) C only
+  - (X) Any combination of A/B/C: they all grow the stack
+
+
+callq effects on Stack Pointer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  When calling a function via the `callq', the stack pointer `%rsp' must
+  be "aligned", e.g. divisible by 16.  Assuming this is so, how does the
+  `callq' instruction change `%rsp'?
+
+  - ( ) `callq' does not change `%rsp' during at all. `%rsp' is
+    therefore still divisible by 16 after the instruction completes.
+  - (X) `callq' will subtract off 8 from the value of `%rsp' and places
+    the return address at the top of the stack. `%rsp' is then divisible
+    by 8 but not 16.
+  - ( ) `callq' will subtract off 16 from the value of `%rsp' and places
+    the return address at the top of the stack. `%rsp' is therefore
+    still divisible by 16.
+  - ( ) `callq' will subtract off 24 from the value of `%rsp' and places
+    the return address at the top of the stack. `%rsp' is then divisible
+    by 8 but not 16.
+
+
+Alignment
+~~~~~~~~~
+
+  If the total size of local variables that need main memory space in a
+  function is 36 bytes, one approach is to grow the stack by 36 bytes
+  exactly. BUT if functions are to be called during that function, then
+  it would be better to...
+  - ( ) No special action is required: growing by 36 bytes is a good
+    idea as it saves memory while growing larger would waste memory.
+  - ( ) No special action is required: the `callq' instruction
+    automatically changes `%rsp' to be a value that is divisible by 16.
+  - ( ) Grow the stack by 48 bytes; this will mean `%rsp' is aligned at
+    a 16-byte boundary and ready for function calls.
+  - (X) Grow the stack by 40 bytes; this + 8 bytes for the return
+    address in the stack will mean `%rsp' is aligned at a 16-byte
+    boundary and ready for function calls.
+
+
+CODE order3_asm.s
+=================
+
+  Complete the `main()' function in `order3_asm.s'. This will require
+  completing the `TODO' sections in the code to grow the stack, populate
+  the stack with local variable values, call several functions with the
+  addresses of local variables, and then shrink the stack.
+
+  To help understand the intent of the assembly code, you can analyze
+  the equivalent C code in `order3_c.c' which performs the same
+  "computation" in C including use of the address-of operator.
+
+  When written correctly, the program should compile and run as follows.
+  ,----
+  | > make
+  | gcc -Wall -Werror -g  -o order3_c order3_c.c
+  | gcc -Wall -Werror -g  -o order3_asm order3_asm.s
+  | 
+  | > ./order3_asm 
+  | r t v: 12 13 17
+  | q e d:  2  5  9
+  | i j k: 24 27 29
+  `----
+
+  If mistakes in the stack manipulation are present, this can lead to
+  problems late in the program. Valgrind can give a little insight but
+  generally these are difficult problems to diagnose so be careful. For
+  example, below is a transcript of an incorrectly written version which
+  does not allocate the correct amount of space in the stack for the
+  local variables.
+
+  ,----
+  | > ./order3_asm                     # run broken version
+  | r t v: 12 13 17                    # output look okay
+  | q e d:  2  5  9
+  | i j k: 24 27 29
+  | Segmentation fault (core dumped)   # uh-oh...
+  | 
+  | > valgrind ./order3_asm            # see if valgrind gives any help
+  | ==2508984== Memcheck, a memory error detector
+  | ==2508984== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+  | ==2508984== Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info
+  | ==2508984== Command: ./order3_asm
+  | ==2508984== 
+  | r t v: 12 13 17                    # output OK...
+  | q e d:  2  5  9
+  | i j k: 24 27 29
+  | ==2508984== Jump to the invalid address stated on the next line
+  | ==2508984==    at 0x1D: ???
+  | ==2508984==    by 0x1FFF000557: ???
+  | ==2508984==    by 0x10489EF72: ???
+  | ==2508984==    by 0x109138: ??? (in ./order3_asm)
+  | ==2508984==    by 0x7FFFFFFFF: ???
+  | ==2508984==  Address 0x1d is not stack'd, malloc'd or (recently) free'd
+  | ==2508984==                        # ADDRESS 0x1d is really small; probably clobbered 
+  | ==2508984==                        # return address during execution, look at stack carefully
+  | ==2508984== Process terminating with default action of signal 11 (SIGSEGV): dumping core
+  | ==2508984==  Bad permissions for mapped region at address 0x1D
+  | ==2508984==    at 0x1D: ???
+  | ==2508984==    by 0x1FFF000557: ???
+  | ==2508984==    by 0x10489EF72: ???
+  | ==2508984==    by 0x109138: ??? (in ./order3_asm)
+  | ==2508984==    by 0x7FFFFFFFF: ???
+  | ==2508984== 
+  | ==2508984== HEAP SUMMARY:
+  | ==2508984==     in use at exit: 0 bytes in 0 blocks
+  | ==2508984==   total heap usage: 1 allocs, 1 frees, 1,024 bytes allocated
+  | ==2508984== 
+  | ==2508984== All heap blocks were freed -- no leaks are possible
+  | ==2508984== 
+  | ==2508984== For lists of detected and suppressed errors, rerun with: -s
+  | ==2508984== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+  | Segmentation fault (core dumped)
+  `----

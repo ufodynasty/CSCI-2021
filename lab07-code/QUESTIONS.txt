@@ -1,0 +1,95 @@
+                           __________________
+
+                            LAB 07 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+QUIZ Coding Assembly Functions
+==============================
+
+  Answer the following questions on basic techniques for assembly
+  function coding.
+
+  How are the first 6 arguments to an assembly functions mad available
+  within the function?
+  - ( ) Arguments are passed in registers; the first two are in the
+    `%rax' and `%rbx' registers
+  - (X) Arguments are passed in registers; the first two are in the
+    `$rdi' and `%rsi' registers
+  - ( ) Arguments are in the stack; the first two are available using
+    the stack pointer as `0(%rsp)' and `8(%rsp)'
+  - ( ) Arguments are in the stack; the first two are available using
+    the stack pointer as `8(%rsp)' and `12(%rsp)'
+
+  Which of the following best describes how the kind of arguments passed
+  to the FIRST function `set_coins()' function in assembly?
+  - (X) An integer in `%edi' and a pointer to a struct in `%rsi'; to
+    get/set fields of the struct syntax like `2(%rsi)' is used
+  - ( ) An integer in `%edi' and a packed struct in `%rsi'; to get/set
+    fields of the struct bitwise shifts and AND operations are used
+  - ( ) An integer in `%esi' and a pointer to a struct in `%rdi'; to
+    get/set fields of the struct syntax like `2(%rsi)' is used
+  - ( ) An integer in `%esi' and a packed struct in `%rdi'; to get/set
+    fields of the struct bitwise shifts and AND operations are used
+
+  Which of the following best describes how the kind of arguments passed
+  to the SECOND function `total_coins()' function in assembly?
+  - ( ) A pointer to a struct in `%rsi'; to get/set fields of the struct
+    syntax like `2(%rsi)' is used
+  - ( ) A packed struct in `%rsi'; to get/set fields of the struct
+    bitwise shifts and AND operations are used
+  - () A pointer to a struct in `%rdi'; to get/set fields of the struct
+    syntax like `2(%rsi)' is used
+  - (X) A packed struct in `%rdi'; to get/set fields of the struct
+    bitwise shifts and AND operations are used
+
+
+CODE coins_funcs_asm.s
+======================
+
+  Complete the two assembly functions in `coins_funcs_asm.s'. Note that
+  while working on the first function, you can use the provided
+  definition for the C version of the second function and test it via
+  ,----
+  | make coins_hybrid  # create mixed C/assembly main function
+  | make test-hybrid   # test mixed C/assembly code
+  `----
+
+
+  However, make sure to complete both assembly functions and test them
+  via
+  ,----
+  | make test
+  `----
+
+  before using
+  ,----
+  | make zip
+  `----
+
+  to create a zip to submit.

@@ -1,0 +1,133 @@
+                           __________________
+
+                            LAB 10 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+QUIZ Timing Code
+================
+
+  Using the HW10 code pack which contains the `superscalar_main'
+  benchmark program, answer the following questions concerning timing on
+  several lab machines. You will need to SSH into several machines to
+  complete the questions.
+
+
+time utility
+~~~~~~~~~~~~
+
+  On a run of the program such as
+  ,----
+  | > time ./superscalar_main 1 30 add1_diff
+  | ...
+  `----
+  which of the reported times is the most relevant to understanding
+  processor speed?
+  - ( ) The `real' time as it reports how many seconds the user has to
+    wait for the program to complete
+  - (X) The `user' time which is the number of seconds that the CPU
+    spends executing the code in the user's program
+  - ( ) The `sys' time because it indicates how much time the program
+    spends in OS system calls
+
+
+Processor types
+~~~~~~~~~~~~~~~
+
+  Use the `lscpu' utility on the two machines
+  - atlas.cselabs.umn.edu
+  - csel-kh1250-05.cselabs.umn.edu
+  to determine the types of processors and their relative processing
+  speed according to the "BogoMIPS" measure.
+  - ( ) `atlas' and `csel-kh1250-NN' both have Intel processors and the
+    BogoMIPS measure indicates `csel-kh1250-NN' is faster
+  - ( ) `atlas' and `csel-kh1250-NN' both have AMD processors and the
+    BogoMIPS measure indicates `atlas' is faster
+  - ( ) `atlas' has Intel processors and `csel-kh1250-NN' has AMD
+    processors and the BogoMIPS measure indicates `atlas' is faster
+  - (X) `atlas' has AMD processors and `csel-kh1250-NN' has Intel
+    processors and the BogoMIPS measure indicates `csel-kh1250-NN' is
+    faster
+
+
+Timings using `superscalar_main'
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Compile HW10's `superscalar_main' program using the provided
+  `Makefile' and time runs of it on both `atlas' and `csel-kh1250-05'
+  using the command:
+  ,----
+  | time ./superscalar_main 1 30 add1_diff
+  `----
+
+  According to what you observe for this, which of the following best
+  reflects the outcome of the runs between the two machines?
+  - (X) `atlas' takes about 0.95s to run while `csel-kh1250-NN' takes
+    about 0.28s to run indicating `csel-kh1250-NN' is faster
+  - ( ) `atlas' takes about 0.50s to run while `csel-kh1250-NN' takes
+    about 0.85s to run indicating `atlas' is faster
+  - ( ) `atlas' takes about 1.23s to run while `csel-kh1250-NN' takes
+    about 0.61s to run indicating `csel-kh1250-NN' is faster
+  - ( ) `atlas' takes about 0.10s to run while `csel-kh1250-NN' takes
+    about 0.15s to run indicating `atlas' is faster
+
+
+Mysteries
+~~~~~~~~~
+
+  Among the micro 'benchmarks' implemented in `superscalar_main` are the
+  following two
+  ,----
+  |   add2_diff : add 2 times in same loop; different destination variables
+  |   add2_same : add 2 times in same loop; same destination variable
+  `----
+  Examining the code for these two should reveal only minor differences
+  but even this minor difference has some strange performance
+  implications. Time runs of the benchmark as
+  ,----
+  | time ./superscalar_main 1 30 add2_diff
+  | time ./superscalar_main 1 30 add2_same
+  `----
+  on BOTH `atlas' and `csel-kh1250-NN' and report on the relations
+  below.
+
+  On atlas
+  - ( ) atlas: time for `add2_diff < add2_same'
+  - ( ) atlas: time for `add2_diff > add2_same'
+  - (X) atlas: time for `add2_diff = add2_same'
+
+  On csel-kh1250-NN
+  - (X) csel-kh1250-NN: time for `add2_diff < add2_same'
+  - ( ) csel-kh1250-NN: time for `add2_diff > add2_same'
+  - ( ) csel-kh1250-NN: time for `add2_diff = add2_same'
+
+
+CODE None
+=========
+
+  None for this lab

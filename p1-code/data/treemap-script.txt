@@ -1,0 +1,27 @@
+add El strange
+add Mike stoic
+print
+add Dustin corny
+add Lucas brash
+print
+add Will lost
+add Steve hairy
+print
+get Dustin
+get Steve
+get Mike
+get Barb
+get Hopper
+save stranger.tm
+clear
+print
+load stranger.tm
+print
+add El hairy
+add Will found
+add Barb away
+print
+load stranger.tm
+print
+preorder
+quit

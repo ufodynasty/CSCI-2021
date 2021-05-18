@@ -1,0 +1,103 @@
+                           __________________
+
+                            LAB 14 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+QUIZ: print_department.c
+========================
+
+  The print_department.c code is copied over from a previous HW which
+  discussed its use of `mmap()' to memory map a file with binary data in
+  it. Review this code as many of the techniques demonstrated in it will
+  be used to complete the CODE portion of this lab.
+
+  Near the top of the program `print_department.c', code like the
+  following appears.
+  ,----
+  | file_header_t *header = (file_header_t *) file_bytes;
+  `----
+
+  Which the below best describes what this line is doing?
+  - (X) It sets a pointer to the same location as file_bytes but
+    indicates that the data there should be treated as a file_header_t.
+  - ( ) It does pointer arithmetic between file_bytes (pointer to
+    beginning of the file) and offset to find the location where
+    name/emails for an individual department are located in the file.
+  - ( ) It changes the memory mapped file to be at a different location
+    in memory and refer to a different type; subsequently it will be
+    treated as file_header_t data.
+  - ( ) It alters the header of the binary file by assigning new data to
+    the mapped location in the file.
+
+
+  One part of the program print_department.c uses a line that looks like
+  the following
+  ,----
+  | contact_t *dept_contacts = (contact_t *) (file_bytes + offset);
+  `----
+
+  Which the below best describes what this line is doing?
+  - (X) It does pointer arithmetic between file_bytes (pointer to
+    beginning of the file) and offset to find the location where
+    name/emails for an individual department are located in the file.
+  - ( ) It does pointer arithmetic to convert character data (a string)
+    to be reformatted as a contact_t; this converts binary data to
+    printable data.
+  - ( ) It calculates how much of the file remains by summing the number
+    of bytes in the file and the current offset; this is then
+    dereferenced to get a struct pointer.
+  - ( ) It changes the memory mapped file to be at a different location
+    in memory and refer to a different type; subsequently it will be
+    treated as contact_t data.
+
+
+CODE: Complete `email_lookup.c'
+===============================
+
+  Complete the code in the `email_lookup.c' file which is intended to
+  accept an email address on the command line and lookup the Department
+  / Name of the person to which it belongs.  Much of the code is
+  provided but some lines are marked with ??? and need code filled
+  in. Many of the techniques required have analogs in
+  `print_department.c' so adapt the code provided there as appropriate.
+
+  When complete, the `email_lookup' program will run as follows.
+  ,----
+  | >> ./email_lookup cse_depts.dat follstad@umn.edu
+  | Found follstad@umn.edu: IT Department --> Carl Follstad
+  | 
+  | >> ./email_lookup cse_depts.dat sjguy@umn.edu
+  | Found sjguy@umn.edu: CS Department --> Stephen Guy
+  | 
+  | >> ./email_lookup cse_depts.dat heimdahl@umn.edu
+  | Found heimdahl@umn.edu: CS Department --> Mats Heimdahl
+  | 
+  | >> ./email_lookup cse_depts.dat linus@umn.edu
+  | Email 'linus@umn.edu' not found
+  `----

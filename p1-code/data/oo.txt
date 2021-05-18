@@ -1,0 +1,10 @@
+Have you ever noticed
+that turning a
+non-object-oriented
+program into an
+object-oriented one in
+the same language that
+does the same thing
+essentially doubles its
+size?  Try it sometime...
+-Steve Yegge

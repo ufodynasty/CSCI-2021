@@ -1,0 +1,25 @@
+====================================================================================
+Pointer Arithmetic within print_department.c file after memory mapping cse_depts.dat
+====================================================================================
+
+char *file_bytes = -----------------------------------+                                                
+  mmap(...);                                           \                                               
+                                                        v    BYTES OF FILE     STRUCT FIELDS / TYPES
+file_header_t *header = --------------------------------> |       0xDE "DIR" | ident        | file_header_t |
+ (file_header_t *) file_bytes;                            |                3 | num_depts    |               |
+                                                 +------> |               CS | dept_code    | dept_offset_t |
+dept_offset_t *offsets_arr = -------------------/         |              ... | offset       |               |
+ (dept_offset_t *) (file_bytes + sizeof(file_header_t));  |                8 | num_contacts |               |
+                                                          |               EE | dept_code    | dept_offset_t |
+                                                          |              ... | offset       |               |
+contact_t *dept_contacts = ---------------------------+   |                6 | num_contacts |               |
+  (contact_t *) (file_bytes + offsets_arr[0].offset); |   |               IT | dept_code    | dept_offset_t |
+                                                      |   |              ... | offset       |               |
+                                                      |   |                5 | num_contacts |               |
+                                                      +-> | Arindam Banerjee | name         | contact_t     |
+                                                          | baner029@umn.edu | email        |               |
+                                                          |     Daniel Boley | name         | contact_t     |
+                                                          |    boley@umn.edu | email        |               |
+                                                          | Abhishek Chandra | name         | contact_t     |
+                                                          |  chandra@umn.edu | email        |               |
+                                                          |                  | ...          |               |

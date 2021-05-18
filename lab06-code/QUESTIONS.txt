@@ -1,0 +1,201 @@
+                           __________________
+
+                            LAB 06 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+QUIZ gdb basics and phase03.c
+=============================
+
+Starting Up
+~~~~~~~~~~~
+
+  After starting up GDB with the `phase03' program, the `run' command
+  will yield the following output
+  ,----
+  | > gdb ./phase03
+  | ...
+  | 
+  | (gdb) run
+  | Starting program: ./phase03 
+  | usage: ./phase03 <infile>
+  | [Inferior 1 (process 1943881) exited with code 01]
+  `----
+  which means that the `phase03' program wants a command line
+  argument. How does one accomplish this in GDB?
+  - ( ) Use the command `set args input.txt' once and then each `run'
+    will use those arguments
+  - ( ) Use the command `run input.txt' each time you run
+  - (X) Either of the above will work
+  - ( ) Start GDB as `gdb ./phase03 input.txt'
+
+
+Setting a Breakpoint
+~~~~~~~~~~~~~~~~~~~~
+
+  Which of the following commands will set a breakpoint in GDB at the
+  line that reads `int hit = shot ^ targ;'?
+  - ( ) `break int hit = shot ^ targ'
+  - ( ) `break phase03'
+  - (X) `break phase03.c:32'
+  - ( ) `break next hit'
+
+  After hitting the specified breakpoint, which of the following GDB
+  commands will advance to the next **breakpoint** that is set?
+  - ( ) `next'
+  - (X) `continue'
+  - ( ) `run'
+  - ( ) `advance'
+
+
+next command in gdb
+~~~~~~~~~~~~~~~~~~~
+
+  During a debugging, the debugger has `phase03' stopped at the line
+  indicated below via a `>' character.
+  ,----
+  | /// INITIAL ///
+  |   void phase02(){
+  |     int a = atoi(next_input());
+  | >   int b = atoi(next_input());
+  |     int c = atoi(next_input());
+  | ....
+  | 
+  |   char *next_input(){
+  |     input_idx++;
+  |     int ret = fscanf(input_fh, "%s", inputs[input_idx]);
+  | ...
+  | 
+  `----
+
+  When the `next' command is executed by GDB, then the debugger execute
+  some code and leaves the state of the running program in one of the
+  following positions:
+
+  ,----
+  | /// OPTION A ///
+  |   void phase02(){
+  |     int a = atoi(next_input());
+  |     int b = atoi(next_input());
+  | >   int c = atoi(next_input());
+  | ....
+  | 
+  |   char *next_input(){
+  |     input_idx++;
+  |     int ret = fscanf(input_fh, "%s", inputs[input_idx]);
+  | ...
+  | 
+  | /// OPTION B ///
+  |   void phase02(){
+  |     int a = atoi(next_input());
+  | >   int b = atoi(next_input());
+  |     int c = atoi(next_input());
+  | ....
+  | 
+  |   char *next_input(){
+  |     input_idx++;
+  |     int ret = fscanf(input_fh, "%s", inputs[input_idx]);
+  | ...
+  | 
+  | /// OPTION C ///
+  |   void phase02(){
+  |     int a = atoi(next_input());
+  |     int b = atoi(next_input());
+  |     int c = atoi(next_input());
+  | ....
+  | 
+  |   char *next_input(){
+  | >   input_idx++;
+  |     int ret = fscanf(input_fh, "%s", inputs[input_idx]);
+  | ...
+  `----
+
+  After executing `next', which option correctly indicates where GDB
+  will get control back?
+  - (X) OPTION A because `next' moves to the next line of code executing
+    all functions and operations on a given line.
+  - ( ) OPTION B because `next' executes the next operation and
+    completes it which will be the `next_input()' function but the
+    `atoi()' function will not be run
+  - ( ) OPTION C because `next' steps into functions and executes the
+    next operation which is to start running the `next_input()'
+    function.
+
+
+step command in gdb
+~~~~~~~~~~~~~~~~~~~
+
+  Instead of using the `next' command in the above example, what if the
+  `step' command was used instead from the `INITIAL' position? Which
+  `OPTION' represents the code position GDB would be at after `step'?
+
+  - ( ) OPTION A because `step' moves to the next line of code executing
+    all functions and operations on a given line.
+  - ( ) OPTION B because `step' executes the next operation and
+    completes it which will be the `next_input()' function but the
+    `atoi()' function will not be run
+  - (X) OPTION C because `step' steps into functions and executes the
+    next operation which is to start running the `next_input()'
+    function.
+
+
+CODE input.txt for phase03
+==========================
+
+  The mock `phase03' program can be compiled via `make' and run via
+  ,----
+  | > ./phase03 input.txt
+  `----
+
+
+  Use `gdb' and analyze what inputs are required in the file `input.txt'
+  in order to "pass" the phase. A correct run yields the output:
+  ,----
+  | > ./phase03 input.txt
+  | Running mock Phase03
+  | Right on target: nice shootin' bitslinger!
+  | Phase complete
+  `----
+  which is checked for in the CODE tests.
+
+  Test that the code behaves correctly via the command
+  ,----
+  | make test-code
+  `----
+
+  and verify that both code/quiz are correct via
+  ,----
+  | make test
+  `----
+
+  before using
+  ,----
+  | make zip
+  `----
+
+  to create a zip to submit.

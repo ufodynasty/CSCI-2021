@@ -1,0 +1,133 @@
+                           __________________
+
+                            LAB 11 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+CODE: `struct_stride.c' Program
+===============================
+
+  The provided `struct_stride.c' program has a number of TODO items in
+  it related to timing several computations and reporting their results.
+  It is best to complete these items first and then attempt to answer
+  the quiz questions as some questions require running the program and
+  observing timing results.
+
+  Use the lab's description of how the `clock()' function works to
+  complete TODO items and print the results.
+
+  When completed, the program can be run as show below:
+  ,----
+  | >> ./struct_stride 
+  | usage: ./struct_stride <arr_length> <num_iters>
+  | 
+  | >> ./struct_stride 10000000 100
+  | method: int_field_base CPU time: 1.2345e-01 sec   sum: 0
+  | method: arr_field_base CPU time: 1.2345e-01 sec   sum: 0
+  | method: int_field_optm CPU time: 1.2345e-01 sec   sum: 0
+  | method: arr_field_optm CPU time: 1.2345e-01 sec   sum: 0
+  `----
+
+  NOTE: the timing information has intentionally been changed to read
+  1.2345e-01 as calculating this timing information is part of the lab.
+
+
+QUIZ: Timing `struct_stride.c' Runs
+===================================
+
+Relative Speed of Struct Layouts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  After adding in calls to `clock()' and code the print times, run the
+  `struct_strid' program.
+
+  Run the program with a large array and a modest amount of array
+  iterations such as using the following parameters:
+  ,----
+  | ./struct_stride 10000000 100
+  `----
+
+  Examine the times reported.
+
+  Which option below reflects the relative speeds of the
+  layout/algorithm combinations?
+  ,----
+  |   ------SLOWEST--------------------------------------------FASTEST-----
+  | - ( ) arr_field_base > arr_field_optm > int_field_base > int_field_optm 
+  | - ( ) int_field_base > int_field_optm > arr_field_base > arr_field_optm
+  | - ( ) arr_field_base > int_field_base > arr_field_optm > int_field_optm 
+  | - (X) int_field_base > arr_field_base > int_field_optm > arr_field_optm
+  `----
+
+
+int_field_base VS arr_field_base
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Examine the differences between the two types of structs that are used
+  in `struct_stride.c' called `int_field_t' and `arr_field_t'.
+
+  Now examine the first 2 code blocks that use these structs called,
+  `int_field_base' and `arr_field_base'. Both involve arrays and structs
+  which store an equal number of positive and negative
+  integers. However, they differ in the overall layout of those
+  integers.  Both use loops sum the "a" numbers first then sum the "b"
+  numbers, then combine them for the total sum.
+
+  Which of the following are possible explanations for the timing
+  difference between `int_field_base' and `arr_field_base'?
+  - ( ) `int_field_base' must perform more loop iterations than
+    `arr_field_base' which will making it slower.
+  - ( ) `arr_field_base' uses more memory to store then number than
+    `int_field_base' and this additional memory increases speed.
+  - (X) `int_field_base' has a memory layout that is ABABABAB so when
+    adding A elements, there is a "stride" through
+    memory. `arr_field_base' has a layout like `AAAAABBBBB' so adding
+    elements has no stride.
+  - ( ) `int_field_base' uses struct field access. The assembly
+    instructions to access array fields are slower than the assembly
+    instructions that access array elements. This makes `arr_field_base'
+    faster due to its use of plain integer arrays.
+
+
+BASE vs OPTM versions
+~~~~~~~~~~~~~~~~~~~~~
+
+  The last two layout/algorithm sections are labeled "optm" as they
+  perform a simple code transformation from their "base" version.
+
+  Select ALL of the items below that are accomplished with this
+  transformation.
+
+  - (X) Fewer loop checks/increments are needed as there is only one
+    loop instead of 2.
+  - ( ) The number of loop iterations is lowered for all loops in the
+    optm version.
+  - (X) The memory stride is eliminated for the int_field_optm as both
+    a/b elements are added each iteration.
+  - ( ) The algorithmic complexity is reduced from O(N^2) in the "base"
+    to O(N) in the "optm" version.

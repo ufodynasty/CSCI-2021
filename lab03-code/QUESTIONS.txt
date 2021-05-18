@@ -1,0 +1,244 @@
+                           __________________
+
+                            LAB 03 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+Treasuremap Files
+=================
+
+  Staff will discuss some aspects of the provided treasure_main.c
+  file. This file has some blanks marked with ???? which need to be
+  filled in.  It also demonstrates several important techniques that are
+  common in C program.
+
+  When the application is complete, it will run as shown below on the
+  provided map1.tm and map2.tm files.
+
+  ,----
+  | > make                               # compile
+  | gcc -Wall -Werror -g  -c treasure_main.c
+  | gcc -Wall -Werror -g  -o treasure_main treasure_main.o treasure.h
+  | 
+  | > ./treasure_main                    # run with no file provided
+  | usage: ./treasure_main <treasure_file.tm>
+  | 
+  | > ./treasure_main map1.tm            # run on first treasuremap
+  | Loading treasure map from file 'map1.tm'
+  | Reading map from file 'map1.tm'
+  | Allocating map struct
+  | Map is 7 by 5
+  | 3 treasures on the map
+  | Allocating array of treasure locations
+  | Reading treasures
+  | Treasure at 0 2 called 'Death_Crystals'
+  | Treasure at 4 1 called 'Mega_Seeds'
+  | Treasure at 6 3 called 'Flurbo_stash'
+  | Completed file, closing
+  | Returning pointer to heap-allocated treasure_t
+  | 
+  | ==TREASURE MAP==
+  | ..A..
+  | .....
+  | .....
+  | .....
+  | .B...
+  | .....
+  | ...C.
+  | ================
+  | A: Death_Crystals
+  | B: Mega_Seeds
+  | C: Flurbo_stash
+  | 
+  | Deallocating map
+  | 
+  | 
+  | > ./treasure_main map2.tm            # run on second treasuremap
+  | Loading treasure map from file 'map2.tm'
+  | Reading map from file 'map2.tm'
+  | Allocating map struct
+  | Map is 9 by 13
+  | 10 treasures on the map
+  | Allocating array of treasure locations
+  | Reading treasures
+  | Treasure at 5 2 called 'Goblet_of_Fire'
+  | Treasure at 3 8 called 'Invisibility_Cloak'
+  | Treasure at 4 11 called 'Elder_Wand'
+  | Treasure at 8 10 called 'Mirror_of_Erised'
+  | Treasure at 1 12 called 'Philosophers_Stone'
+  | Treasure at 7 9 called 'Marauders_Map'
+  | Treasure at 8 2 called 'Pensieve'
+  | Treasure at 3 9 called 'Sword_of_Gryffindor'
+  | Treasure at 7 0 called 'Tom_Riddles_Diary'
+  | Treasure at 0 11 called 'Time_Turner'
+  | Completed file, closing
+  | Returning pointer to heap-allocated treasure_t
+  | 
+  | ==TREASURE MAP==
+  | ...........J.
+  | ............E
+  | .............
+  | ........BH...
+  | ...........C.
+  | ..A..........
+  | .............
+  | I........F...
+  | ..G.......D..
+  | ================
+  | A: Goblet_of_Fire
+  | B: Invisibility_Cloak
+  | C: Elder_Wand
+  | D: Mirror_of_Erised
+  | E: Philosophers_Stone
+  | F: Marauders_Map
+  | G: Pensieve
+  | H: Sword_of_Gryffindor
+  | I: Tom_Riddles_Diary
+  | J: Time_Turner
+  | 
+  | Deallocating map
+  `----
+
+
+QUIZ File Input in treasure_main.c
+==================================
+
+  Make sure to study the code and ask questions to resolve the following
+  queries about the treasure map application.
+
+
+Command Line Arguments
+~~~~~~~~~~~~~~~~~~~~~~
+
+  The `treasure_main.c' program is run with command line parameters like
+  `> ./treasure_main map1.tm'.  How is the file name `map1.tm' made
+  available in the `main()' function?
+  - ( ) The `fscanf()' function is used to read the command line as the
+    user types it in.
+  - ( ) The global variable `args' will be an array with `args[0]' as
+    the string `map1.tm'
+  - (X) The `argc' parameter will have value 2 and `argv[1]' will be a
+    pointer to the string `map1.tm'
+  - ( ) The `getenv()' function is used to extract the command line
+    arguments from the environment.
+
+
+Struct Definition
+~~~~~~~~~~~~~~~~~
+
+  The `treasuremap_t' struct is defined in the following location which
+  shows its fields (parts):
+  - ( ) In the c file `treasure_main.c'
+  - (X) In the header `treasure.h'
+  - ( ) In the header `stdio.h'
+  - ( ) Trick question: the definition is read from the user typing
+
+
+File Format
+~~~~~~~~~~~
+
+  One important part of completing the `treasuremap_load()' function
+  will be to understand the format of the treasuremap files.  According
+  to the documentation for the function and your observations of the
+  `map1.tm' and `map2.tm' files, which of the best describes the format
+  of these files.
+  - ( ) The file looks like how treasure_main prints them, as something
+    like
+    ,----
+    |   ..A..
+    |   .....
+    |   .....
+    |   .....
+    |   .B...
+    |   .....
+    |   ...C.
+    `----
+    and the application should just read the strings in the file into
+    the struct.
+  - (X) The first line has the the size of the treasuremap AND the
+    number of treasures in the map (N). There are N remaining lines
+    which have treasure positions/descriptions in them.
+  - ( ) The first line has the number of rows/columns in the map and
+    each remaining line is a row/col/description position of a
+    treasure. The number of treasures is not given and must be detected
+    using EOF as a return from `fscanf()'
+  - ( ) The file is stored in binary format and is not easily read by
+    humans. However, it can be read directly into the struct via
+    `fread()'.
+
+
+Nest Struct Syntax
+~~~~~~~~~~~~~~~~~~
+
+  During `treasuremap_load()' the following line of code is used to read
+  in the row for an individual treasure's location.
+
+  ,----
+  | fscanf(file_handle, "%d", &tmap->locations[i].row);
+  `----
+
+
+  Which of the following best describes the syntax used based on the
+  `treasuremap_t' type?
+  - (X) `tmap' is a pointer to a struct so `->' is used to dereference
+    it to a field; the `locations' field is a pointer to an array so
+    square braces are used to dereference it. `fscanf()' needs an
+    address so `&' is used.
+  - ( ) `tmap' is a normal struct so `->' is used to access its fields;
+    the `locations' field is a normal array so square braces are used to
+    dereference it. `fscanf()' needs an address so `&' is used.
+  - ( ) `tmap' is a pointer so `&' is used to dereference it with `->'
+    getting its field.  The `locations' field is a normal array so
+    square braces are used to dereference it.
+  - ( ) Trick Question: The syntax for this line is actually incorrect
+    and won't compile. It is a TODO item to fix its syntax.
+
+
+CODE Complete treasure_main.c
+=============================
+
+  Complete the TODO items in the `treasure_main.c' file so that the two
+  functions marked REQUIRED compile and run successfully. Correct output
+  will look like the demo shown at the top of this file.
+
+  Test that the code behaves correctly via the command
+  ,----
+  | make test-code
+  `----
+
+  and verify that both code/quiz are correct via
+  ,----
+  | make test
+  `----
+
+  before using
+  ,----
+  | make zip
+  `----
+
+  to create a zip to submit.

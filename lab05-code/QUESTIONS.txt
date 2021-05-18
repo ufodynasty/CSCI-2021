@@ -1,0 +1,143 @@
+                           __________________
+
+                            LAB 05 QUESTIONS
+                           __________________
+
+
+
+
+
+Lab Instructions
+================
+
+  Follow the instructions below to experiment with topics related to
+  this lab.
+  - For sections marked QUIZ, fill in an (X) for the appropriate
+    response in this file. Use the command `make test-quiz' to see if
+    all of your answers are correct.
+  - For sections marked CODE, complete the code indicated. Use the
+    command `make test-code' to check if your code is complete.
+  - DO NOT CHANGE any parts of this file except the QUIZ sections as it
+    may interfere with the tests otherwise.
+  - If your `QUESTIONS.txt' file seems corrupted, restore it by copying
+    over the `QUESTIONS.txt.bk' backup file.
+  - When you complete the exercises, check your answers with `make test'
+    and if all is well, create a zip file with `make zip' and upload it
+    to Gradescope. Ensure that the Autograder there reflects your local
+    results.
+  - IF YOU WORK IN A GROUP only one member needs to submit and then add
+    the names of their group.
+
+
+QUIZ mask.c
+===========
+
+  Study the code in `masking.c' which uses a number of bit-wise
+  operations that have recently been discussed in lecture. These
+  include:
+  ,----
+  | | Operation | Description          |
+  | |-----------+----------------------|
+  | | x & y     | Bit-wise And         |
+  | | x | y     | Bit-wise Or          |
+  | | x ^ y     | Bit-wise Xor         |
+  | | ~x        | Bit-wise inversion   |
+  | | x << y    | Bit-wise Left-shift  |
+  | | x >> y    | Bit-wise Right-shift |
+  `----
+  Study the examples provided in `masking.c' and ensure you understand
+  their meaning according to the context provided. Then answer the
+  following questions.
+
+
+Shift + Or
+~~~~~~~~~~
+
+  What is the effect of the following line of code:
+  ,----
+  | x = x | (1 << 19);
+  `----
+
+  - ( ) Changes `x' so that only its 19th bit is a 1, all other bits are
+    0.
+  - ( ) Changes `x' so that only its 19th bit is a 0, all other bits are
+    unchanged.
+  - (X) Changes `x' so that its 19th bit is set to 1, all other bits
+    unchanged.
+  - ( ) Changes `x' so that its bits are shifted left by 19 places.
+
+
+Shift + Or + Pattern
+~~~~~~~~~~~~~~~~~~~~
+
+  If `x' is cleared (value all 0's), what is the effect of the following
+  line of code:
+  ,----
+  | x = x | (0b110101 << 8);
+  `----
+
+  - (X) Sets the bits of `x' to the given pattern `0b110101' starting
+    with the 8th position.
+  - ( ) Checks that `x' has the given pattern `0b110101' starting with
+    the 8th position.
+  - ( ) Copies the given pattern `0b110101' 8 times throughout `x'
+  - ( ) Adds 53 on the value of `x' faster than normal addition.
+
+
+Shift + Invert + And
+~~~~~~~~~~~~~~~~~~~~
+
+  What is the effect of the following line of code:
+  ,----
+  | x = x & ~(1 << 8);
+  `----
+
+  - ( ) Changes `x' so that only its 8th bit is a 1, all other bits are
+    0.
+  - (X) Changes `x' so that only its 8th bit is a 0, all other bits are
+    unchanged.
+  - ( ) Changes `x' so that its 8th bit is set to 1, all other bits
+    unchanged.
+  - ( ) Changes `x' so that its bits are shifted left by 8 places.
+
+
+Shift + And
+~~~~~~~~~~~
+
+  What is the effect of the following line of code:
+  ,----
+  | if( x & (1 << 13) ){ ... }
+  `----
+
+  - ( ) Conditionally execute only if the 13th bit of `x' is 0 and set
+    that bit subsequently.
+  - ( ) Conditionally execute only if the 13th bit of `x' is 0 but leave
+    `x' unchanged.
+  - ( ) Conditionally execute only if the 13th bit of `x' is 1 and set
+    that bit subsequently.
+  - (X) Conditionally execute only if the 13th bit of `x' is 1 but leave
+    `x' unchanged.
+
+
+CODE Complete masking.c
+=======================
+
+  Complete the TODO items in the `masking.c' file so that the missing
+  blocks produce the effect mentioned in the `printf()' statements.
+
+  Test that the code behaves correctly via the command
+  ,----
+  | make test-code
+  `----
+
+  and verify that both code/quiz are correct via
+  ,----
+  | make test
+  `----
+
+  before using
+  ,----
+  | make zip
+  `----
+
+  to create a zip to submit.

@@ -1,0 +1,11 @@
+9 13 10
+5 2  Goblet_of_Fire
+3 8  Invisibility_Cloak
+4 11 Elder_Wand
+8 10 Mirror_of_Erised
+1 12 Philosophers_Stone
+7 9  Marauders_Map
+8 2  Pensieve
+3 9  Sword_of_Gryffindor
+7 0  Tom_Riddles_Diary
+0 11 Time_Turner
